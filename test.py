@@ -1,26 +1,25 @@
 import heapq
 
-def solution(stock, dates, supplies, k):
+def solution(jobs):
     answer = 0
-    rsup = [-x for x in supplies]
-    heap = [(rs, date, sup) for rs, date,sup in zip(rsup, dates, supplies)]
-    heapq.heapify(heap)
-    
-    while stock < k:
-        tmp = []
-        while True:
-            dns = heapq.heappop(heap)
-            if dns[1] <= stock:
-                stock += dns[2]
-                answer += 1
-                break
-            else:
-                tmp.append(dns)
-                
-        
-        for dns in tmp:
-            heapq.heappush(heap, dns)
-    print(answer)
-    return answer
+    start = 0
+    length = len(jobs)
+    heapq.heapify(jobs)
 
-solution(4, [4,10,15], [20,5,10], 30)
+    tmp = []
+    while jobs or tmp:
+        while jobs:
+            if jobs[0][0] <= start:
+                job = heapq.heappop(jobs)
+                heapq.heappush(tmp, (job[1], job[0]))
+            else:
+                break
+
+        if tmp:
+            job = heapq.heappop(tmp)
+            start += job[0]
+            answer += start - job[1]
+        else:
+            start += 1
+
+    return answer // length
