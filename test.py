@@ -13,18 +13,18 @@ def slope(line, n, m, k):
         #next 0
         if attr[0] == 0 and attr[3]<k-1:
             lines[line+"0"] = [0,attr[1], attr[2]+1, attr[3]+1]
-            (line+"0", n, m, k)
+            slope(line+"0", n, m, k)
         elif attr[0] == 1 and attr[1] <n-2:
             lines[line+"0"] = [0,attr[1]+1, attr[2]+1, 1]
-            (line+"0", n, m, k)
+            slope(line+"0", n, m, k)
 
         #next 1
         if attr[0] == 1 and attr[3]<k-1:
             lines[line+"1"] = [0,attr[1], attr[2], attr[3]+1]
-            (line+"1", n, m, k)
+            slope(line+"1", n, m, k)
         elif attr[0] == 0 and attr[1] <n-2:
             lines[line+"1"] = [0,attr[1]+1, attr[2], 1]
-            (line+"1", n, m, k)          
+            slope(line+"1", n, m, k)          
         
         
         return next_0 + next_1
@@ -36,4 +36,6 @@ def solution(n, m, k):
     global answer
     slope("0", n,  m, k)
     print(lines)
-    return (answer*2) % 1000000007
+    print((answer*2) % 1000000007)
+
+solution(3,8,4)
