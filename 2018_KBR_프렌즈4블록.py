@@ -8,6 +8,7 @@ def solution(m, n, board):
             for j in range(n-1):
                 if board[i][j] != '-' and board[i][j] == board[i][j+1] == board[i+1][j] == board[i+1][j+1]:
                     rm.update([(i,j),(i+1,j),(i,j+1),(i+1,j+1)])
+                    
         rm = sorted(list(rm))
 
         for (i,j) in rm:
