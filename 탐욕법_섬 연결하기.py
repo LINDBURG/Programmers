@@ -1,31 +1,22 @@
-class Islands:
-    def __init__(self):
+class Islands():
+    def __init__(self, costs):
         self.answer = 0
-        self.node = [10000 for i in range(100)]
-        self.movable = [dict() for i in range(100)]
-        self.installed = [[] for i in range(100)]
+        self.tb = [i for i in range(100)]
+        self.costs = sorted(costs, key = lambda x:x[2])
+        self.run()
         
-    def costs(self, costs):
-        for i,j,cost in costs:
-            self.movable[i][j] = cost
-            self.movable[j][i] = cost
-        self.run(costs[0][0], 0)
-        
-    def run(self, idx, val):
-        node = self.node
-        node[idx] = val
-        for key,val in self.movable[idx].items():
-            if key not in self.installed[idx] and val + node[idx] < node[key]:
-                self.installed[idx].append(key)
-                self.installed[key].append(idx)
-                self.answer += val
-                self.run(key, val + node[idx])
-            if key in self.installed[idx] and abs(node[idx] - node[key]) < val:
-                self.installed[idx].remove(key)
-                self.installed[key].remove(idx)
-                self.answer -= val
+    def run(self):
+        for i, j, cost in self.costs:
+            res_i = self.tb[i]
+            res_j = self.tb[j]
+            if res_i != res_j:
+                self.answer += cost
+                new_tb = min(res_i, res_j)
+                for k in range(100):
+                    if self.tb[k] == res_i or self.tb[k] == res_j:
+                        self.tb[k] = new_tb
+                
 
 def solution(n, costs):
-    islands = Islands()
-    islands.costs(costs)
+    islands = Islands(costs)
     return islands.answer
