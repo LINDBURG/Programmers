@@ -1,19 +1,24 @@
-from functools import reduce
+import heapq as hq
 
-def lcm(a,b):
-    base = 1
-    last = max(a,b)**0.5
-    q = 2
-    while q <= last:
-        if a%q ==0 and b%q == 0:
-            base *= q
-            a //= q
-            b //= q
-        else:
-            q += 1
-    
-    return base * a * b
+class Coin():
+    def __init__(self, m, v):
+        self.m = m
+        self.v = v
+        self.heap = [0 for _ in range(m)]
+        hq.heapify(self.heap)
 
-def solution(arr):
-    answer = reduce(lcm, arr)
-    return answer
+        for cost in self.v:
+            self.give(cost)
+
+        self.answer = hq.heappop(self.heap)
+
+    def give(self, cost):
+        now = hq.heappop(self.heap)
+        now += cost
+        hq.heappush(self.heap, now)
+
+
+
+def solution( m, v):
+    coin = Coin(m, v)
+    return coin.answer
